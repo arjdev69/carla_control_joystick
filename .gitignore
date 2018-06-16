@@ -2,3 +2,6 @@
 scripts/modules/__pycache__/
 
 \.vscode/
+scripts/test.py
+scripts/modules/__init__.pyc
+scripts/modules/printText.pyc

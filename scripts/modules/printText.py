@@ -4,7 +4,7 @@ import pygame
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
 
-class TextPrint2:
+class TextPrint:
     def __init__(self):
         self.reset()
         self.font = pygame.font.Font(None, 20)

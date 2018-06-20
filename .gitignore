@@ -5,3 +5,5 @@ scripts/modules/__pycache__/
 scripts/test.py
 scripts/modules/__init__.pyc
 scripts/modules/printText.pyc
+scripts/test.c
+scripts/a.out

@@ -36,7 +36,7 @@ while done==False:
     joystick = SystemController.init_joystick(screen, WHITE)
 
     if joystick != 0:
-      SystemController.get_axes_buttons_control(joystick)
+      SystemController.get_axes_buttons_control(joystick, screen)
       pygame.display.flip()
       # Limit to 20 frames per second
       clock.tick(20)

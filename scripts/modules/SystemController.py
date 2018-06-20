@@ -33,12 +33,18 @@ def init_joystick(screen, color):
     joystick.init()
     return joystick
 
-def get_axes_buttons_control(joystick):
-  axes = joystick.get_numaxes()
-  if joystick.get_axis(3):
-    axis = joystick.get_axis(3)
+def get_axes_buttons_control(joystick, screen):
+  direction_axis(joystick, 0, ["Right","Left"],screen)
+
+  direction_axis(joystick, 4, ["Back","Front"],screen)
+
+def text_axis(axis, direction, screen):
+  textPrint.plint(screen, direction + " - Axis {} value: {:>6.3f}".format(0, axis))
+
+def direction_axis(joystick,axis, text, screen):
+  if joystick.get_axis(axis):
+    axis = joystick.get_axis(axis)
     if axis > 0.0:
-      textPrint.plint(screen, "Right  - Axis {} value: {:>6.3f}".format(0, axis))
+      text_axis(axis,text[0],screen)
     else:
-      textPrint.plint(screen, "Left - Axis {} value: {:>6.3f}".format(0, axis))
-    textPrint.unindent()
+      text_axis(axis,text[1],screen)

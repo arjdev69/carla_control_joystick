@@ -1,6 +1,21 @@
-#!python
+#!/usr/bin/env python3
+
+from __future__ import print_function
 from modules import import_modules
+
 import pygame
+import argparse
+import logging
+import random
+import time
+
+from PythonClient.carla.client import make_carla_client
+from PythonClient.carla.sensor import Camera, Lidar
+from PythonClient.carla.settings import CarlaSettings
+from PythonClient.carla.tcp import TCPConnectionError
+from PythonClient.carla.util import print_over_same_line
+
+
 
 SystemController = import_modules.SystemController
 

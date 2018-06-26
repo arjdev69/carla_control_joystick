@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.5
 
 from __future__ import print_function
 from modules import import_modules
@@ -14,8 +14,6 @@ from PythonClient.carla.sensor import Camera, Lidar
 from PythonClient.carla.settings import CarlaSettings
 from PythonClient.carla.tcp import TCPConnectionError
 from PythonClient.carla.util import print_over_same_line
-
-
 
 SystemController = import_modules.SystemController
 

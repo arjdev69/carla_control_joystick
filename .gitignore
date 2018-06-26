@@ -1,4 +1,3 @@
-
 scripts/modules/__pycache__/
 
 \.vscode/
@@ -7,3 +6,6 @@ scripts/modules/__init__.pyc
 scripts/modules/printText.pyc
 scripts/test.c
 scripts/a.out
+scripts/PythonClient/carla/__pycache__/
+carla_joystick/
+scripts/modules/SystemController.pyc

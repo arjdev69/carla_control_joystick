@@ -2,7 +2,7 @@ from modules import printText as outputText
 import pygame
 
 textPrint = outputText.TextPrint()
-
+alert = "I am sorry baby, not found joystick"
 #FUNCTIONS
 def event_buttons(event):
   # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
@@ -12,6 +12,7 @@ def event_buttons(event):
     print("Joystick button released.")
 
 def init_joystick(screen, color):
+  global alert
   # DRAWING STEP
   # First, clear the screen to white. Don't put other drawing commands
   # above this, or they will be erased with this command.
@@ -21,9 +22,11 @@ def init_joystick(screen, color):
   # Get count of joysticks
   joystick_count = pygame.joystick.get_count()
   if joystick_count < 1:
-    textPrint.plint(screen, "I am sorry baby, not found joystick {}".format(joystick_count))
-    print("I am sorry baby, not found joystick {}")
-    textPrint.indent()
+    textPrint.plint(screen, alert.format(joystick_count))
+    if alert != "":
+      print(alert)
+      alert = ""
+      textPrint.indent()
     return 0
   else:
     textPrint.plint(screen, "Number of joysticks: {}".format(joystick_count) )

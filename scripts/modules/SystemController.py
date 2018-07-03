@@ -29,7 +29,7 @@ def init_joystick(screen, color):
       textPrint.indent()
     return 0
   else:
-    textPrint.plint(screen, "Number of joysticks: {}".format(joystick_count) )
+    textPrint.plint(screen, "Number of joysticks: {}".format(joystick_count))
     textPrint.indent()
     joystick = pygame.joystick.Joystick(0)
     #print(joystick_count)
@@ -44,7 +44,7 @@ def get_axes_buttons_control(joystick, screen):
 def text_axis(axis, direction, screen):
   textPrint.plint(screen, direction + " - Axis {} value: {:>6.3f}".format(0, axis))
 
-def direction_axis(joystick,axis, text, screen):
+def direction_axis(joystick, axis, text, screen):
   if joystick.get_axis(axis):
     axis = joystick.get_axis(axis)
     if axis > 0.0:

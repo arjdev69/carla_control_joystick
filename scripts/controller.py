@@ -1,57 +1,72 @@
 #!/usr/bin/env python3.5
-
-from __future__ import print_function
 from modules import import_modules
-
+from modules import button as Button
 import pygame
-import argparse
-import logging
 import random
-import time
-
-from PythonClient.carla.client import make_carla_client
-from PythonClient.carla.sensor import Camera, Lidar
-from PythonClient.carla.settings import CarlaSettings
-from PythonClient.carla.tcp import TCPConnectionError
-from PythonClient.carla.util import print_over_same_line
+import os
+import sys
 
 SystemController = import_modules.SystemController
 
+
+
+os.environ["SDL_VIDEO_CENTERED"] = '1'
 pygame.init()
 
 
-# Set the width and height of the screen [width,height]
-size = [500, 700]
-screen = pygame.display.set_mode(size)
-WHITE = ( 255, 255, 255)
-pygame.display.set_caption("My Game")
+RED = (255,0,0)
+BLUE = (0,0,255)
+GREEN = (0,255,0)
+BLACK = (0,0,0)
+WHITE = (255,255,255)
+ORANGE = (255,180,0)
 
-#Loop until the user clicks the close button.
-done = False
 
-# Used to manage how fast the screen updates
-clock = pygame.time.Clock()
+#The button can be styled in a manner similar to CSS.
+BUTTON_STYLE = {"hover_color" : BLUE,
+                "clicked_color" : GREEN,
+                "clicked_font_color" : BLACK,
+                "hover_font_color" : ORANGE,
+                "hover_sound" : pygame.mixer.Sound("blipshort1.wav")}
 
-# Initialize the joysticks
-pygame.joystick.init()
-   
-# Get ready to print textPrint = TextPrint()
-screen.fill(WHITE)
 
-# -------- Main Program Loop -----------
-while done==False:
-    # EVENT PROCESSING STEP
-    for event in pygame.event.get(): # User did something
-      if event.type == pygame.QUIT: # If user clicked close
-        done=True # Flag that we are done so we exit this loop
-      SystemController.event_buttons(event)
+class Control(object):
+    def __init__(self):
+        self.screen = pygame.display.set_mode((500,500))
+        self.screen_rect = self.screen.get_rect()
+        self.clock = pygame.time.Clock()
+        self.done = False
+        self.fps = 60.0
+        self.color = WHITE
+        message = "Change the screen color."
 
-    joystick = SystemController.init_joystick(screen, WHITE)
+        self.button = Button((0,0,200,50),RED, self.change_color,text=message, **BUTTON_STYLE)
+        self.button.rect.center = (self.screen_rect.centerx,25)
+        self.button2 = Button((0,0,200,50),RED, self.change_color,text="ola", **BUTTON_STYLE)
+        self.button2.rect.center = (self.screen_rect.centerx,110)
 
-    if joystick != 0:
-      SystemController.get_axes_buttons_control(joystick, screen)
-      pygame.display.flip()
-      # Limit to 20 frames per second
-      clock.tick(20)
+    def change_color(self):
+        self.color = [random.randint(0,255) for _ in range(3)]
 
-pygame.quit ()
+    def event_loop(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.done = True
+            self.button.check_event(event)
+            self.button2.check_event(event)
+
+    def main_loop(self):
+        while not self.done:
+            self.event_loop()
+            self.screen.fill(self.color)
+            self.button.update(self.screen)
+            self.button2.update(self.screen)
+            pygame.display.update()
+            self.clock.tick(self.fps)
+
+
+if __name__ == "__main__":
+    run_it = Control()
+    run_it.main_loop()
+    pygame.quit()
+    sys.exit()

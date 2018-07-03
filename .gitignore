@@ -9,3 +9,7 @@ scripts/a.out
 scripts/PythonClient/carla/__pycache__/
 carla_joystick/
 scripts/modules/SystemController.pyc
+CARLA_0.8.4/
+scripts/blipshort1.wav
+scripts/PythonClient/carla/planner/__pycache__/
+scripts/modules/button/__pycache__/

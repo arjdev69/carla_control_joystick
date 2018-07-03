@@ -32,7 +32,6 @@ BUTTON_STYLE = {"hover_color" : BLUE,
 
 class Control(object):
     def __init__(self):
-        
         self.screen = pygame.display.set_mode((500,500))
         self.screen_rect = self.screen.get_rect()
         self.clock = pygame.time.Clock()

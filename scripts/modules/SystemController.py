@@ -11,36 +11,13 @@ def event_buttons(event):
   if event.type == pygame.JOYBUTTONUP:
     print("Joystick button released.")
 
-def init_joystick(screen):
-  global alert
-  # DRAWING STEP
-  # First, clear the screen to white. Don't put other drawing commands
-  # above this, or they will be erased with this command.
-  textPrint.reset()
-
-  # Get count of joysticks
-  joystick_count = pygame.joystick.get_count()
-  if joystick_count < 1:
-    textPrint.plint(screen, alert.format(joystick_count))
-    if alert != "":
-      print(alert)
-      alert = ""
-      textPrint.indent()
-    return 0
-  else:
-    textPrint.plint(screen, "Number of joysticks: {}".format(joystick_count))
-    textPrint.indent()
-    joystick = pygame.joystick.Joystick(0)
-    #print(joystick_count)
-    joystick.init()
-    return joystick
-
 def get_axes_buttons_control(joystick, screen):
   direction_axis(joystick, 0, ["Right","Left"],screen)
 
   direction_axis(joystick, 4, ["Back","Front"],screen)
 
 def text_axis(axis, direction, screen):
+  textPrint.indent();textPrint.reset()
   textPrint.plint(screen, direction + " - Axis {} value: {:>6.3f}".format(0, axis))
 
 def direction_axis(joystick, axis, text, screen):

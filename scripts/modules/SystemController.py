@@ -11,12 +11,11 @@ def event_buttons(event):
   if event.type == pygame.JOYBUTTONUP:
     print("Joystick button released.")
 
-def init_joystick(screen, color):
+def init_joystick(screen):
   global alert
   # DRAWING STEP
   # First, clear the screen to white. Don't put other drawing commands
   # above this, or they will be erased with this command.
-  screen.fill(color)
   textPrint.reset()
 
   # Get count of joysticks

@@ -1,5 +1,6 @@
 from modules import import_modules
 from modules import button
+from modules import printText
 import pygame
 import random
 import os
@@ -7,6 +8,7 @@ import sys
 import subprocess
 
 SystemController = import_modules.SystemController
+TextOutput = printText.TextPrint()
 
 os.environ["SDL_VIDEO_CENTERED"] = '1'
 pygame.init()
@@ -17,7 +19,8 @@ GREEN = (0,255,0)
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 ORANGE = (255,180,0)
-
+joystick = []
+i = 0
 #The button can be styled in a manner similar to CSS.
 BUTTON_STYLE = {"hover_color" : BLUE,
                 "clicked_color" : GREEN,
@@ -39,11 +42,12 @@ class Control(object):
 
     self.button = button.Button((0,0,110,25),RED, ServerController().start_server_carla,text=message, **BUTTON_STYLE)
     self.button.rect.center = (70, self.screen_rect.height - 50)
-    self.button2 = button.Button((0,0,50,50),RED, self.change_color,text="ola", **BUTTON_STYLE)
-    self.button2.rect.center = (self.screen_rect.centerx,110)
+
+    self.button2 = button.Button((0,0,110,25),RED, self.start_joystick,text="Start Joystick", **BUTTON_STYLE)
+    self.button2.rect.center = (190, self.screen_rect.height - 50)
 
   def change_color(self):
-    self.color = [random.randint(0,255) for _ in range(3)]
+    pass#self.color = [random.randint(0,255) for _ in range(3)]
 
   def event_loop(self):
     for event in pygame.event.get():
@@ -53,13 +57,21 @@ class Control(object):
       self.button2.check_event(event)
 
   def start_joystick(self):
-    pygame.joystick.init()
+    joystick_count = pygame.joystick.get_count()
+    if joystick_count < 1:
+      return 0
+    for i in range(joystick_count):
+      joystick.append(pygame.joystick.Joystick(i))
+      joystick[i].init()
   
   def joystick_loop(self):
-    joystick = SystemController.init_joystick(self.screen)
-    if joystick != 0:
-      SystemController.get_axes_buttons_control(joystick, self.screen)
+    if len(joystick) != 0:
+      for x in range(len(joystick)):
+        SystemController.get_axes_buttons_control(joystick[x], self.screen)
       pygame.display.flip()
+    else:
+      TextOutput.reset()
+      TextOutput.plint(self.screen, "Joystick not found".format())
 
   def main_loop(self):
     while not self.done:

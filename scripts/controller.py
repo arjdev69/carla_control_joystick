@@ -35,11 +35,11 @@ class Control(object):
     self.done = False
     self.fps = 60.0
     self.color = WHITE
-    message = "Change the screen color."
+    message = "Start Carla Server"
 
-    self.button = button.Button((0,0,200,50),RED, self.change_color,text=message, **BUTTON_STYLE)
-    self.button.rect.center = (self.screen_rect.centerx,25)
-    self.button2 = button.Button((0,0,200,50),RED, self.change_color,text="ola", **BUTTON_STYLE)
+    self.button = button.Button((0,0,110,25),RED, self.change_color,text=message, **BUTTON_STYLE)
+    self.button.rect.center = (70, self.screen_rect.height - 50)
+    self.button2 = button.Button((0,0,50,50),RED, self.change_color,text="ola", **BUTTON_STYLE)
     self.button2.rect.center = (self.screen_rect.centerx,110)
 
   def change_color(self):

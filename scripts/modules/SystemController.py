@@ -1,4 +1,4 @@
-from modules import printText as outputText
+from modules import PrintText as outputText
 import pygame
 
 textPrint = outputText.TextPrint()

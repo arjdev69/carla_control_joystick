@@ -1,14 +1,14 @@
-from modules import import_modules
+from modules import ImportModules
 from modules import button
-from modules import printText
+from modules import PrintText
 import pygame
 import random
 import os
 import sys
 import subprocess
 
-SystemController = import_modules.SystemController
-TextOutput = printText.TextPrint()
+SystemController = ImportModules.SystemController
+TextOutput = PrintText.TextPrint()
 
 os.environ["SDL_VIDEO_CENTERED"] = '1'
 pygame.init()

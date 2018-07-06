@@ -19,10 +19,10 @@ try:
 except ImportError:
     raise RuntimeError('cannot import PIL, make sure pillow package is installed')
 
-from PythonClient.carla.planner.graph import Graph
-from PythonClient.carla.planner.graph import sldist
-from PythonClient.carla.planner.grid import Grid
-from PythonClient.carla.planner.converter import Converter
+from modules.PythonClient.carla.planner.graph import Graph
+from modules.PythonClient.carla.planner.graph import sldist
+from modules.PythonClient.carla.planner.grid import Grid
+from modules.PythonClient.carla.planner.converter import Converter
 
 
 def color_to_angle(color):

@@ -1,6 +1,7 @@
 from modules import ImportModules
 from modules import button
 from modules import PrintText
+from modules import Connection
 import pygame
 import random
 import os
@@ -46,8 +47,14 @@ class Control(object):
     self.button2 = button.Button((0,0,110,25),RED, self.start_joystick,text="Start Joystick", **BUTTON_STYLE)
     self.button2.rect.center = (190, self.screen_rect.height - 50)
 
+    self.buttonStartClient = button.Button((0,0,110,25),RED, self.connect_client,text="Start Client", **BUTTON_STYLE)
+    self.buttonStartClient.rect.center = (310, self.screen_rect.height - 50)
+
   def change_color(self):
     pass#self.color = [random.randint(0,255) for _ in range(3)]
+
+  def connect_client(self):
+    Connection.ControlClient().control_client()
 
   def event_loop(self):
     for event in pygame.event.get():
@@ -55,6 +62,7 @@ class Control(object):
         self.done = True
       self.button.check_event(event)
       self.button2.check_event(event)
+      self.buttonStartClient.check_event(event)
 
   def start_joystick(self):
     joystick_count = pygame.joystick.get_count()
@@ -79,6 +87,7 @@ class Control(object):
       self.screen.fill(self.color)
       self.button.update(self.screen)
       self.button2.update(self.screen)
+      self.buttonStartClient.update(self.screen)
       self.joystick_loop()
       pygame.display.update()
       self.clock.tick(self.fps)

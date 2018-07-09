@@ -23,11 +23,12 @@ ORANGE = (255,180,0)
 joystick = []
 i = 0
 #The button can be styled in a manner similar to CSS.
-BUTTON_STYLE = {"hover_color" : BLUE,
-                "clicked_color" : GREEN,
-                "clicked_font_color" : BLACK,
-                "hover_font_color" : ORANGE,
-                "hover_sound" : pygame.mixer.Sound("sound.wav")}
+BUTTON_STYLE = {"hover_color" : BLUE
+                , "clicked_color" : GREEN
+                , "clicked_font_color" : BLACK
+                , "hover_font_color" : ORANGE
+                , "hover_sound" : pygame.mixer.Sound(os.getcwd()+"/scripts/sound.wav")
+                }
 
 clock = pygame.time.Clock()
 
@@ -54,7 +55,7 @@ class Control(object):
     pass#self.color = [random.randint(0,255) for _ in range(3)]
 
   def connect_client(self):
-    Connection.ControlClient().control_client()
+    Connection.ControlClient().start()
 
   def event_loop(self):
     for event in pygame.event.get():
@@ -97,4 +98,4 @@ class ServerController(object):
     pass
   
   def start_server_carla(self):
-    exec(open("./modules/StartCarlaServer.py").read())#subprocess.run(["../../CARLA_0.8.4/CarlaUE4.sh"], shell=True, check=True)
+    exec(open(os.getcwd()+"/scripts/modules/StartCarlaServer.py").read())

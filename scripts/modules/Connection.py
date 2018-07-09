@@ -4,6 +4,7 @@ from __future__ import print_function
 import argparse
 import logging
 import random
+import threading
 import time
     
 from modules.PythonClient.carla import image_converter
@@ -14,39 +15,41 @@ from modules.PythonClient.carla.settings import CarlaSettings
 from modules.PythonClient.carla.tcp import TCPConnectionError
 from modules.PythonClient.carla.util import print_over_same_line
 
-autopilot = False
-class ControlClient(object):
+autopilot = True
+class ControlClient(threading.Thread):
 
-  def run_client(self, args):
-    number_of_episodes = 1
-    frames_per_episode = 3
-    with make_carla_client(args.host, 2000) as client:
-      print("Connected ?")
+  def __init__(self):
+    threading.Thread.__init__(self)
 
-      for episode in range(0, number_of_episodes):
-        settings = CarlaSettings()
-        settings.set(
-            SynchronousMode=True,
-            SendNonPlayerAgentsInfo=True,
-            NumberOfVehicles=200,
-            NumberOfPedestrians=180,
-            WeatherId=random.choice([1, 3, 7, 8, 14]),
-            QualityLevel='Epic')
-        settings.randomize_seeds()
 
-        scene = client.load_settings(settings)
+  def run_client(self):
+    frames_per_episode = 30000000
+    with make_carla_client("localhost", 2000) as client:
+      print("CarlaClient connected")
 
-        # Choose one player start at random.
-        number_of_player_starts = len(scene.player_start_spots)
-        player_start = random.randint(0, max(0, number_of_player_starts - 1))
+      settings = CarlaSettings()
+      settings.set(
+          SynchronousMode=True,
+          SendNonPlayerAgentsInfo=True,
+          NumberOfVehicles=200,
+          NumberOfPedestrians=180,
+          WeatherId=random.choice([1, 3, 7, 8, 14]))
+      settings.randomize_seeds()
 
-        # Notify the server that we want to start the episode at the
-        # player_start index. This function blocks until the server is ready
-        # to start the episode.
-        print('Starting new episode at %r...' % scene.map_name)
-        client.start_episode(player_start)
+      scene = client.load_settings(settings)
+
+      # Choose one player start at random.
+      number_of_player_starts = len(scene.player_start_spots)
+      player_start = random.randint(0, max(0, number_of_player_starts - 1))
+
+      # Notify the server that we want to start the episode at the
+      # player_start index. This function blocks until the server is ready
+      # to start the episode.
+      print('Starting new episode at %r...' % scene.map_name)
+      client.start_episode(player_start)
         
       for frame in range(0, frames_per_episode):
+        measurements, sensor_data = client.read_data()
         if not autopilot:
 
           client.send_control(
@@ -68,19 +71,11 @@ class ControlClient(object):
           control.steer += random.uniform(-0.1, 0.1)
           client.send_control(control)
 
-  def control_client(self):
-    argparser = argparse.ArgumentParser(description=__doc__)
-    argparser.add_argument(
-        '--host',
-        metavar='H',
-        default='localhost',
-        help='IP of the host server (default: localhost)')
-
-    args = argparser.parse_args()
+  def run(self):
     while True:
       try:
 
-        self.run_client(args)
+        self.run_client()
 
         print('Done.')
         return
@@ -88,9 +83,3 @@ class ControlClient(object):
       except TCPConnectionError as error:
         logging.error(error)
         time.sleep(1)
-
-'''if __name__ == '__main__':
-    try:
-        control_client()
-    except KeyboardInterrupt:
-        print('\nCancelled by user. Bye!')'''

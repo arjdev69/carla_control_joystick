@@ -2,16 +2,8 @@ scripts/modules/__pycache__/
 
 \.vscode/
 scripts/test.py
-scripts/modules/__init__.pyc
-scripts/modules/printText.pyc
+__pycache__
 scripts/test.c
 scripts/a.out
-scripts/PythonClient/carla/__pycache__/
-carla_joystick/
-scripts/modules/SystemController.pyc
 CARLA_0.8.4/
-scripts/blipshort1.wav
-scripts/PythonClient/carla/planner/__pycache__/
-scripts/modules/button/__pycache__/
-scripts/modules/PythonClient/carla/planner/__pycache__/converter.cpython-35.pyc
-scripts/modules/PythonClient/carla/planner/__pycache__/map.cpython-35.pyc
+*.pyc

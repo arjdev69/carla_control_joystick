@@ -7,13 +7,13 @@ import random
 import threading
 import time
     
-from modules.PythonClient.carla import image_converter
-from modules.PythonClient.carla import sensor
-from modules.PythonClient.carla.client import make_carla_client, VehicleControl
-from modules.PythonClient.carla.planner.map import CarlaMap
-from modules.PythonClient.carla.settings import CarlaSettings
-from modules.PythonClient.carla.tcp import TCPConnectionError
-from modules.PythonClient.carla.util import print_over_same_line
+from modules.client.carla import image_converter
+from modules.client.carla import sensor
+from modules.client.carla.client import make_carla_client, VehicleControl
+from modules.client.carla.planner.map import CarlaMap
+from modules.client.carla.settings import CarlaSettings
+from modules.client.carla.tcp import TCPConnectionError
+from modules.client.carla.util import print_over_same_line
 
 autopilot = True
 class ControlClient(threading.Thread):

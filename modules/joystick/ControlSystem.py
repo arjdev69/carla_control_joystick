@@ -1,14 +1,15 @@
-from modules import ImportModules
-from modules import button
-from modules import PrintText
-from modules import Connection
+from modules.joystick import SystemController
+from modules.button import button
+from modules.joystick import PrintText
+from modules.client import Connection
+
 import pygame
 import random
 import os
 import sys
 import subprocess
 
-SystemController = ImportModules.SystemController
+SystemController = SystemController
 TextOutput = PrintText.TextPrint()
 
 os.environ["SDL_VIDEO_CENTERED"] = '1'
@@ -27,7 +28,7 @@ BUTTON_STYLE = {"hover_color" : BLUE
                 , "clicked_color" : GREEN
                 , "clicked_font_color" : BLACK
                 , "hover_font_color" : ORANGE
-                , "hover_sound" : pygame.mixer.Sound(os.getcwd()+"/scripts/sound.wav")
+                , "hover_sound" : pygame.mixer.Sound(os.getcwd()+"/sound.wav")
                 }
 
 clock = pygame.time.Clock()
@@ -98,4 +99,4 @@ class ServerController(object):
     pass
   
   def start_server_carla(self):
-    exec(open(os.getcwd()+"/scripts/modules/StartCarlaServer.py").read())
+    exec(open(os.getcwd()+"/modules/client/StartCarlaServer.py").read())

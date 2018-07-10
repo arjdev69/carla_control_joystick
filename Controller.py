@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.5
-from modules import ControlSystem
+from modules.joystick import ControlSystem
 import pygame, sys
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from modules import PrintText as outputText
+from modules.joystick import PrintText as outputText
 import pygame
 
 textPrint = outputText.TextPrint()

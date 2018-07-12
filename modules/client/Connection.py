@@ -14,29 +14,31 @@ from modules.client.carla.planner.map import CarlaMap
 from modules.client.carla.settings import CarlaSettings
 from modules.client.carla.tcp import TCPConnectionError
 from modules.client.carla.util import print_over_same_line
+from modules.joystick import SystemController
 
-autopilot = True
+autopilot = False
+clientSide = ""
 class ControlClient(threading.Thread):
-
   def __init__(self):
     threading.Thread.__init__(self)
 
 
   def run_client(self):
-    frames_per_episode = 30000000
+    global clientSide
+    frames_per_episode = 300000000000000000000000000000000000000000000000000000
     with make_carla_client("localhost", 2000) as client:
       print("CarlaClient connected")
-
+      clientSide = client
       settings = CarlaSettings()
       settings.set(
           SynchronousMode=True,
           SendNonPlayerAgentsInfo=True,
-          NumberOfVehicles=200,
-          NumberOfPedestrians=180,
+          NumberOfVehicles=20,
+          NumberOfPedestrians=50,
           WeatherId=random.choice([1, 3, 7, 8, 14]))
       settings.randomize_seeds()
 
-      scene = client.load_settings(settings)
+      scene = clientSide.load_settings(settings)
 
       # Choose one player start at random.
       number_of_player_starts = len(scene.player_start_spots)
@@ -46,32 +48,42 @@ class ControlClient(threading.Thread):
       # player_start index. This function blocks until the server is ready
       # to start the episode.
       print('Starting new episode at %r...' % scene.map_name)
-      client.start_episode(player_start)
+      clientSide.start_episode(player_start)
         
       for frame in range(0, frames_per_episode):
         measurements, sensor_data = client.read_data()
-        if not autopilot:
+        self.control_vechile(measurements)
 
-          client.send_control(
-          steer=random.uniform(-1.0, 1.0),
-          throttle=0.5,
-          brake=0.0,
-          hand_brake=False,
-          reverse=False)
+  def control_vechile(self,measurements):
+    global clientSide; global autopilot
+    if not autopilot:
+      clientSide.send_control()
+    else:
+      self.autopilot(measurements)
+  
+  def autopilot(self,measurements):
+    global clientSide
+    # Together with the measurements, the server has sent the
+    # control that the in-game autopilot would do this frame. We
+    # can enable autopilot by sending back this control to the
+    # server. We can modify it if wanted, here for instance we
+    # will add some noise to the steer.
 
-        else:
+    control = measurements.player_measurements.autopilot_control
+    #control.steer += 0.0random.uniform(-0.1, 0.1)
+    clientSide.send_control(control)
 
-          # Together with the measurements, the server has sent the
-          # control that the in-game autopilot would do this frame. We
-          # can enable autopilot by sending back this control to the
-          # server. We can modify it if wanted, here for instance we
-          # will add some noise to the steer.
+  def pilots_control(control):
+    global clientSide; global autopilot
+    if not autopilot:
+      clientSide.send_control(control)
 
-          control = measurements.player_measurements.autopilot_control
-          control.steer += random.uniform(-0.1, 0.1)
-          client.send_control(control)
+  def set_autopilot(pilot):
+    global autopilot
+    autopilot = pilot
 
   def run(self):
+    test_connection = 4
     while True:
       try:
 
@@ -83,3 +95,6 @@ class ControlClient(threading.Thread):
       except TCPConnectionError as error:
         logging.error(error)
         time.sleep(1)
+        test_connection += -1
+        if test_connection <=0:
+          break

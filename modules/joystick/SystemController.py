@@ -33,14 +33,13 @@ def set_direction_control(joystick, axis,screen):
   global reverse; global pressed
   control = VehicleControl()
 
-  if axis[0] == 0:
-    control.steer = set_axis_control_car(joystick,axis[0])
+  control.steer = set_axis_control_car(joystick,axis[0])
 
-  if axis[1] == 4:
-    control.throttle = set_axis_control_car(joystick,axis[1])
+  control.throttle = set_axis_control_car(joystick,axis[1])
 
   control.brake = set_brake(joystick)
 
+  control.hand_brake = set_handbrake(joystick)
 
   control.reverse = reverse
   send_commands(control)
@@ -61,6 +60,11 @@ def set_brake(joystick):
   else:
     return False
 
+def set_handbrake(joystick):
+  if get_button_state(joystick,7)==1:
+    return True
+  else:
+    return False
 
 def get_button_state(joystick, id):
   value = joystick.get_button(id)

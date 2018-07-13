@@ -62,6 +62,7 @@ class Control(object):
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         self.done = True
+      SystemController.event_buttons_pressed(event)      
       self.button.check_event(event)
       self.button2.check_event(event)
       self.buttonStartClient.check_event(event)

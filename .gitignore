@@ -7,3 +7,5 @@ scripts/test.c
 scripts/a.out
 CARLA_0.8.4/
 *.pyc
+core
+test.py

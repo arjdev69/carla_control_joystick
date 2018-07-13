@@ -5,54 +5,66 @@ import pygame
 
 textPrint = outputText.TextPrint()
 control_car = Connection.ControlClient
-alert = "I am sorry baby, not found joystick"
-wheel = velocity = 0
+pressed = reverse = False
+joystick_event = ""
+
 #FUNCTIONS
-def event_buttons(event):
+def event_buttons_pressed(event):
+  global pressed
   # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
   if event.type == pygame.JOYBUTTONDOWN:
-    print("Joystick button pressed.")
-  if event.type == pygame.JOYBUTTONUP:
-    print("Joystick button released.")
+    pressed = not pressed
+    set_reverse()
+  return pressed
 
-def get_axes_buttons_control(joystick, screen):
-  direction_axis(joystick, 0, ["Right","Left"],screen)
-
-  direction_axis(joystick, 4, ["Back","Front"],screen)
+def get_axes_buttons_control(joystick, screen):         #RENAME FUNCTIONS
+  global joystick_event
+  direction_axis(joystick, [0,4,3], ["Steer","Throttle"],screen)
+  joystick_event = joystick
 
 def text_axis(axis, direction, screen):
   textPrint.indent();textPrint.reset()
-  textPrint.plint(screen, direction + " - Axis {} value: {:>6.3f}".format(0, axis))
+  textPrint.plint(screen, direction + " - Axis {:>6.3f} value: {}".format(0, axis))
 
 def direction_axis(joystick, axis, text, screen):
-  global velocity; global wheel
-  #velocity = wheel = 0
+  set_direction_control(joystick, axis,screen)
+
+def set_direction_control(joystick, axis,screen):
+  global reverse; global pressed
   control = VehicleControl()
-  if joystick.get_axis(axis):
-    axisValue = joystick.get_axis(axis)
 
-    if axis == 0:
-      if axisValue > 0.0:
-        text_axis(axisValue,text[0],screen)
-        control.steer = axisValue
-        print("Steer +")
-      else:
-        text_axis(axisValue,text[1],screen)
-        control.steer = axisValue
-        print("Steer -")
-    
-    if axis == 4:
-      if axisValue > 0.0:
-        text_axis(axisValue,text[0],screen)
-        control.throttle = axisValue
-        print("throttle +")
-      else:
-        text_axis(axisValue,text[1],screen)
-        control.throttle = axisValue
-        print("throttle -")
-    car_control(control)
+  if axis[0] == 0:
+    control.steer = set_axis_control_car(joystick,axis[0])
 
-      
+  if axis[1] == 4:
+    control.throttle = set_axis_control_car(joystick,axis[1])
 
-def car_control(control):
-    control_car.pilots_control(control)
+  control.brake = set_brake(joystick)
+
+
+  control.reverse = reverse
+  send_commands(control)
+
+def set_axis_control_car(joystick,axis):
+  axisValue = joystick.get_axis(axis)
+  return axisValue
+
+def set_reverse():
+  global reverse;global joystick_event
+
+  if get_button_state(joystick_event,3)==1:
+    reverse = not reverse
+
+def set_brake(joystick):
+  if get_button_state(joystick,5)==1:
+    return True
+  else:
+    return False
+
+
+def get_button_state(joystick, id):
+  value = joystick.get_button(id)
+  return value
+
+def send_commands(control):
+  control_car.pilots_control(control)

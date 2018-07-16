@@ -19,7 +19,7 @@ def event_buttons_pressed(event):
 
 def get_axes_buttons_control(joystick, screen):         #RENAME FUNCTIONS
   global joystick_event
-  direction_axis(joystick, [0,4,3], ["Steer","Throttle"],screen)
+  direction_axis(joystick, [0,4], ["Steer","Throttle"],screen)
   joystick_event = joystick
 
 def text_axis(axis, direction, screen):
@@ -44,9 +44,15 @@ def set_direction_control(joystick, axis,screen):
   control.reverse = reverse
   send_commands(control)
 
-def set_axis_control_car(joystick,axis):
+def set_axis_control_car(joystick, axis):
   axisValue = joystick.get_axis(axis)
-  return axisValue
+  if axisValue > -0.004 and axisValue < -0.000:
+    return 0.0
+  elif axisValue > 0.000 and axisValue < 0.004:
+    return 0.0
+  else:
+    print("AxisValue",axisValue)
+    return axisValue
 
 def set_reverse():
   global reverse;global joystick_event
@@ -61,7 +67,7 @@ def set_brake(joystick):
     return False
 
 def set_handbrake(joystick):
-  if get_button_state(joystick,7)==1:
+  if get_button_state(joystick,4)==1:
     return True
   else:
     return False

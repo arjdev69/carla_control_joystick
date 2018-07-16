@@ -19,7 +19,7 @@ def event_buttons_pressed(event):
 
 def get_axes_buttons_control(joystick, screen):         #RENAME FUNCTIONS
   global joystick_event
-  direction_axis(joystick, [0,4,3], ["Steer","Throttle"],screen)
+  direction_axis(joystick, [0,4], ["Steer","Throttle"],screen)
   joystick_event = joystick
 
 def text_axis(axis, direction, screen):

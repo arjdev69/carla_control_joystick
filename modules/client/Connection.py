@@ -25,7 +25,7 @@ class ControlClient(threading.Thread):
 
   def run_client(self):
     global clientSide
-    frames_per_episode = 300000000000000000000000000000000000000000000000000000
+    frames_per_episode = 30 * 600000
     with make_carla_client("localhost", 2000) as client:
       print("CarlaClient connected")
       clientSide = client

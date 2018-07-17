@@ -41,6 +41,7 @@ class Control(object):
     self.done = False
     self.fps = 60.0
     self.color = WHITE
+    self.startClient = False
     message = "Start Carla Server"
 
     self.button = button.Button((0,0,110,25),RED, ServerController().start_server_carla,text=message, **BUTTON_STYLE)
@@ -57,6 +58,7 @@ class Control(object):
 
   def connect_client(self):
     Connection.ControlClient().start()
+    self.startClient = True
 
   def event_loop(self):
     for event in pygame.event.get():
@@ -71,9 +73,10 @@ class Control(object):
     joystick_count = pygame.joystick.get_count()
     if joystick_count < 1:
       return 0
-    for i in range(joystick_count):
-      joystick.append(pygame.joystick.Joystick(i))
-      joystick[i].init()
+    if self.startClient:  
+      for i in range(joystick_count):
+        joystick.append(pygame.joystick.Joystick(i))
+        joystick[i].init()
   
   def joystick_loop(self):
     if len(joystick) != 0:

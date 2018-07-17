@@ -51,7 +51,6 @@ def set_axis_control_car(joystick, axis):
   elif axisValue > 0.000 and axisValue < 0.004:
     return 0.0
   else:
-    print("AxisValue",axisValue)
     return axisValue
 
 def set_reverse():

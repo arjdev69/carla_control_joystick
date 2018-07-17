@@ -65,9 +65,9 @@ class ControlClient(threading.Thread):
     if not autopilot:
       clientSide.send_control()
     else:
-      self.autopilot(measurements)
+      self.autopilot_control(measurements)
   
-  def autopilot(self,measurements):
+  def autopilot_control(self,measurements):
     global clientSide
     # Together with the measurements, the server has sent the
     # control that the in-game autopilot would do this frame. We
@@ -84,9 +84,9 @@ class ControlClient(threading.Thread):
     if not autopilot:
       clientSide.send_control(control)
 
-  def set_autopilot(pilot):
+  def set_autopilot(self):
     global autopilot
-    autopilot = pilot
+    autopilot = not autopilot
 
   def run(self):
     test_connection = 2

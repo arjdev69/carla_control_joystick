@@ -1,3 +1,7 @@
 pygame
 numpy
 google
+Pillow
+protobuf
+matplotlib
+future

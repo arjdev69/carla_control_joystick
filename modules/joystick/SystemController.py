@@ -10,12 +10,9 @@ joystick_event = ""
 
 #FUNCTIONS
 def event_buttons_pressed(event):
-  global pressed
   # Possible joystick actions: JOYAXISMOTION JOYBALLMOTION JOYBUTTONDOWN JOYBUTTONUP JOYHATMOTION
   if event.type == pygame.JOYBUTTONDOWN:
-    pressed = not pressed
     set_reverse()
-  return pressed
 
 def get_axes_buttons_control(joystick, screen):         #RENAME FUNCTIONS
   global joystick_event
@@ -30,7 +27,7 @@ def direction_axis(joystick, axis, text, screen):
   set_direction_control(joystick, axis,screen)
 
 def set_direction_control(joystick, axis,screen):
-  global reverse; global pressed
+  global reverse
   control = VehicleControl()
 
   control.steer = set_axis_control_car(joystick,axis[0])

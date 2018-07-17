@@ -21,7 +21,13 @@ clientSide = ""
 class ControlClient(threading.Thread):
   def __init__(self):
     threading.Thread.__init__(self)
+    self._stop_event = threading.Event()
 
+  def stop(self):
+    self._stop_event.set()
+
+  def stopped(self):
+    return self._stop_event.is_set()
 
   def run_client(self):
     global clientSide
@@ -83,15 +89,11 @@ class ControlClient(threading.Thread):
     autopilot = pilot
 
   def run(self):
-    test_connection = 4
+    test_connection = 2
     while True:
       try:
-
         self.run_client()
-
-        print('Done.')
-        return
-
+        break
       except TCPConnectionError as error:
         logging.error(error)
         time.sleep(1)

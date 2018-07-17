@@ -44,30 +44,35 @@ class Control(object):
     self.startClient = False
     message = "Start Carla Server"
 
-    self.button = button.Button((0,0,110,25),RED, ServerController().start_server_carla,text=message, **BUTTON_STYLE)
-    self.button.rect.center = (70, self.screen_rect.height - 50)
+    self.buttonStartCarlaServer = button.Button((0,0,110,25),RED, ServerController().start_server_carla,text=message, **BUTTON_STYLE)
+    self.buttonStartCarlaServer.rect.center = (70, self.screen_rect.height - 50)
 
-    self.button2 = button.Button((0,0,110,25),RED, self.start_joystick,text="Start Joystick", **BUTTON_STYLE)
-    self.button2.rect.center = (190, self.screen_rect.height - 50)
+    self.buttonStartJoystick = button.Button((0,0,110,25),RED, self.start_joystick,text="Start Joystick", **BUTTON_STYLE)
+    self.buttonStartJoystick.rect.center = (190, self.screen_rect.height - 50)
 
     self.buttonStartClient = button.Button((0,0,110,25),RED, self.connect_client,text="Start Client", **BUTTON_STYLE)
     self.buttonStartClient.rect.center = (310, self.screen_rect.height - 50)
 
-  def change_color(self):
-    pass#self.color = [random.randint(0,255) for _ in range(3)]
+    self.buttonAutoPilot = button.Button((0,0,110,25),RED, self.autopilot,text="Auto Pilot", **BUTTON_STYLE)
+    self.buttonAutoPilot.rect.center = (430, self.screen_rect.height - 50)
 
   def connect_client(self):
     Connection.ControlClient().start()
     self.startClient = True
+
+  def autopilot(self):
+    if self.startClient:
+      Connection.ControlClient().set_autopilot()
 
   def event_loop(self):
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         self.done = True
       SystemController.event_buttons_pressed(event)      
-      self.button.check_event(event)
-      self.button2.check_event(event)
+      self.buttonStartCarlaServer.check_event(event)
+      self.buttonStartJoystick.check_event(event)
       self.buttonStartClient.check_event(event)
+      self.buttonAutoPilot.check_event(event)
 
   def start_joystick(self):
     joystick_count = pygame.joystick.get_count()
@@ -91,9 +96,10 @@ class Control(object):
     while not self.done:
       self.event_loop()
       self.screen.fill(self.color)
-      self.button.update(self.screen)
-      self.button2.update(self.screen)
+      self.buttonStartCarlaServer.update(self.screen)
+      self.buttonStartJoystick.update(self.screen)
       self.buttonStartClient.update(self.screen)
+      self.buttonAutoPilot.update(self.screen)
       self.joystick_loop()
       pygame.display.update()
       self.clock.tick(self.fps)

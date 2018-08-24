@@ -43,10 +43,8 @@
 
 ## I want suggestions and ideas for this project with CARLA. Follow Links
 
-<<<<<<< HEAD
     * Carla Docs: https://carla.readthedocs.io/en/latest/
     * ...
-=======
+
     * https://carla.readthedocs.io/en/latest/
     * ...
->>>>>>> 00018997ae164898ae2ffa52a26b5de3e7c41e08

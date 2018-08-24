@@ -35,8 +35,7 @@
     * KIVY - TKINTER - QT - or preference...
     * Buttons for module (UI)
    
-   ![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
-    ![image] (https://github.com/jobino/carla_control_joystick/blob/master/images/image-01.png)
+   ![image] (https://github.com/jobino/carla_control_joystick/blob/master/images/image-01.png)
 
 ## Future Ideas
 

@@ -35,7 +35,7 @@
     * KIVY - TKINTER - QT - or preference...
     * Buttons for module (UI)
 
-    * ![Image of Yaktocat](images/image-01.png)
+    * ![Image of Yaktocat](/images/image-01.png)
 
 ## Future Ideas
 

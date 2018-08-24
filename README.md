@@ -35,7 +35,7 @@
     * KIVY - TKINTER - QT - or preference...
     * Buttons for module (UI)
    
-      ![image](https://github.com/jobino/carla_control_joystick/blob/master/images/image-01.png)
+   ![image](https://github.com/jobino/carla_control_joystick/blob/master/images/image-01.png)
 
 ## Future Ideas
 
@@ -43,5 +43,5 @@
 
 ## I want suggestions and ideas for this project with CARLA. Follow Links
 
-    * Carla Docs: https://carla.readthedocs.io/en/latest/
+    * Carla Docs: [link to Google!] (https://carla.readthedocs.io/en/latest/)
     * ...

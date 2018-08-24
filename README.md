@@ -42,5 +42,4 @@
     * Implement initial idea for APP mobile.
 
 ## I want suggestions and ideas for this project with CARLA. Follow Links
-
-https://carla.readthedocs.io/en/latest/
+ * https://carla.readthedocs.io/en/latest/

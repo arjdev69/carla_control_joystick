@@ -43,5 +43,5 @@
 
 ## I want suggestions and ideas for this project with CARLA. Follow Links
 
-    * Carla Docs: [link to Google!] (https://carla.readthedocs.io/en/latest/)
+    * Carla Docs: [link to Google!](https://carla.readthedocs.io/en/latest/)
     * ...
